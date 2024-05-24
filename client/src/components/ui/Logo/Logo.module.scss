@@ -1,0 +1,26 @@
+.logo {
+   background-color: transparent;
+   outline: none;
+   border: none;
+   font-size: 40px;
+   cursor: pointer;
+   width: fit-content;
+   padding: 10px 22px;
+   text-wrap: nowrap;
+
+   border-radius: 50px;
+
+   transition: all 0.2s ease;
+
+   // &:hover {
+   //    background: radial-gradient(
+   //       circle,
+   //       rgba(63, 94, 251, 1) 0%,
+   //       rgba(26, 199, 63, 1) 75%
+   //    );
+   // }
+
+   i {
+      margin-right: 10px;
+   }
+}
