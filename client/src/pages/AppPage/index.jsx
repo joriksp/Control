@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./AppPage.module.scss";
 
 import Logo from "../../components/ui/Logo";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, Navigate } from "react-router-dom";
 
 const AppPage = () => {
+   const token = localStorage.getItem("token");
+   if (!token) {
+      return <Navigate to="/login" replace />;
+   } else {
+   }
+
    return (
       <div className={styles.container}>
          <div className={styles.sidebar}>

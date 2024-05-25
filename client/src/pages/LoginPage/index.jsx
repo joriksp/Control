@@ -4,19 +4,39 @@ import styles from "./LoginPage.module.scss";
 import Logo from "../../components/ui/Logo";
 import TextInput from "../../components/ui/TextInput";
 import Button from "../../components/ui/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-   const [data, setData] = useState({});
+   const [formData, setFormData] = useState({});
+   const navigate = useNavigate();
 
-   const onSubmit = (e) => {
+   const onSubmit = async (e) => {
       e.preventDefault();
-      console.log(data);
+
+      try {
+         const response = await fetch("http://localhost:4444/auth/login", {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
+         const data = await response.json();
+         console.log(data);
+         if (data.success) {
+            localStorage.setItem("token", data.token);
+            navigate("/app");
+         } else {
+            alert("Ошибка");
+         }
+      } catch (err) {
+         console.log(err);
+      }
    };
 
    const handleInputChange = (e) => {
-      setData({
-         ...data,
+      setFormData({
+         ...formData,
          [e.target.name]: e.target.value,
       });
    };

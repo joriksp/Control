@@ -1,10 +1,15 @@
 import React from "react";
 import Logo from "../../components/ui/Logo";
 import "./MainPage.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
    const navigate = useNavigate();
+   const token = localStorage.getItem("token");
+
+   if (!!token) {
+      return <Navigate to={"/app"} />;
+   }
 
    return (
       <div className="intro-block">

@@ -1,16 +1,56 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import TextInput from "@ui/TextInput";
+import Button from "@ui/Button";
+import PageTitle from "@ui/PageTitle";
 import styles from "./ProfilePage.module.scss";
 
-import PageTitle from "../../../components/ui/PageTitle";
-import Table from "../../../components/ui/Table";
-import Button from "../../../components/ui/Button";
-import { Link } from "react-router-dom";
-
 const ProfilePage = () => {
+   const [userData, setUserData] = useState(null);
+   const [error, setError] = useState(null);
+   const token = localStorage.getItem("token");
+
+   const handleInputChange = ({ target: { name, value } }) => {
+      setUserData((prevUserData) => ({ ...prevUserData, [name]: value }));
+   };
+
+   useEffect(() => {
+      const fetchUserData = async () => {
+         try {
+            const response = await fetch("http://localhost:4444/auth/me", {
+               method: "GET",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+               },
+            });
+            const data = await response.json();
+            if (data.success) {
+               setUserData(data);
+            } else {
+               setError("Ошибка");
+            }
+         } catch (err) {
+            setError(err.message);
+         }
+      };
+
+      fetchUserData();
+   }, []);
+
    return (
       <>
          <PageTitle>Профиль</PageTitle>
-         <p>Ваш профиль.</p>
+         {userData && <p>Ваш профиль:</p>}
+         <div className={styles.container}>
+            <TextInput
+               name={"fullName"}
+               onChange={handleInputChange}
+               placeholder={"ФИО"}
+               value={userData?.fullname}
+            />
+            {/* Add other form fields here */}
+         </div>
+         {error && <p>{error}</p>}
       </>
    );
 };

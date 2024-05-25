@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./TextInput.module.scss";
 
-const TextInput = ({ placeholder, type, onChange, name }) => {
+const TextInput = ({ placeholder, type, onChange, name, value }) => {
    return (
       <input
          className={styles.field}
@@ -9,6 +9,7 @@ const TextInput = ({ placeholder, type, onChange, name }) => {
          type={type}
          onChange={onChange}
          name={name}
+         value={value}
       />
    );
 };
