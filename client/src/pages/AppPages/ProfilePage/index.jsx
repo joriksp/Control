@@ -5,12 +5,38 @@ import PageTitle from "@ui/PageTitle";
 import styles from "./ProfilePage.module.scss";
 
 const ProfilePage = () => {
-   const [userData, setUserData] = useState(null);
+   const [userData, setUserData] = useState({
+      fullname: "",
+      phone: "",
+   });
    const [error, setError] = useState(null);
    const token = localStorage.getItem("token");
 
    const handleInputChange = ({ target: { name, value } }) => {
       setUserData((prevUserData) => ({ ...prevUserData, [name]: value }));
+   };
+
+   const updateProfile = async () => {
+      try {
+         const { fullname, phone } = userData;
+
+         const response = await fetch("http://localhost:4444/auth/me", {
+            method: "POST",
+            body: JSON.stringify({ fullName: fullname, phone }),
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: token,
+            },
+         });
+         const data = await response.json();
+         if (data.success) {
+            alert("Информация успешно обновлена");
+         } else {
+            setError("Ошибка");
+         }
+      } catch (err) {
+         setError(err.message);
+      }
    };
 
    useEffect(() => {
@@ -43,12 +69,18 @@ const ProfilePage = () => {
          {userData && <p>Ваш профиль:</p>}
          <div className={styles.container}>
             <TextInput
-               name={"fullName"}
+               name={"fullname"}
                onChange={handleInputChange}
                placeholder={"ФИО"}
-               value={userData?.fullname}
+               value={userData.fullname}
             />
-            {/* Add other form fields here */}
+            <TextInput
+               name={"phone"}
+               onChange={handleInputChange}
+               placeholder={"Номер телефона"}
+               value={userData.phone}
+            />
+            <Button onClick={updateProfile}>Применить изменения</Button>
          </div>
          {error && <p>{error}</p>}
       </>

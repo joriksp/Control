@@ -12,7 +12,10 @@ export const create = async (req, res) => {
 
       const post = await doc.save();
 
-      res.json(post);
+      res.status(200).json({
+         success: true,
+         post,
+      });
    } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -41,7 +44,7 @@ export const getAll = async (req, res) => {
    try {
       const deals = await PostModel.find();
 
-      res.json(deals);
+      res.json({ success: true, deals });
    } catch (err) {
       console.log(err);
       res.status(500).json({

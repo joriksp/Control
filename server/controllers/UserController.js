@@ -111,8 +111,8 @@ export const getMe = async (req, res) => {
 export const updateProfile = async (req, res) => {
    try {
       const user = await UserModel.findByIdAndUpdate(req.userId, {
-         fullname: "new name",
-         phone: "new phone",
+         fullname: req.body.fullName,
+         phone: req.body.phone,
       });
 
       if (!user) {

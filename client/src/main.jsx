@@ -12,6 +12,7 @@ import DealsPage from "./pages/AppPages/DealsPage";
 import ApplicationsPage from "./pages/AppPages/ApplicationsPage";
 import ContactsPage from "./pages/AppPages/ContactsPage";
 import ProfilePage from "./pages/AppPages/ProfilePage";
+import NewDealPage from "./pages/AppPages/NewDealPage";
 
 const router = createBrowserRouter([
    {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
          {
             path: "profile",
             element: <ProfilePage />,
+         },
+         {
+            path: "newdeal",
+            element: <NewDealPage />,
          },
       ],
    },
