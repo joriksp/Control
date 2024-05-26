@@ -11,6 +11,11 @@ const AppPage = () => {
    } else {
    }
 
+   const logout = () => {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+   };
+
    return (
       <div className={styles.container}>
          <div className={styles.sidebar}>
@@ -35,6 +40,9 @@ const AppPage = () => {
                   <i className="fa fa-user" aria-hidden="true"></i>Профиль
                </Link>
             </nav>
+            <button onClick={logout} className={styles.logout}>
+               <i className="fa-solid fa-right-from-bracket"></i>Выход
+            </button>
          </div>
          <div className={styles.content}>
             <Outlet />

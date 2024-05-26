@@ -10,6 +10,7 @@ import AppPage from "./pages/AppPage";
 import HomePage from "./pages/AppPages/HomePage";
 import DealsPage from "./pages/AppPages/DealsPage";
 import ApplicationsPage from "./pages/AppPages/ApplicationsPage";
+import ApplicationPage from "./pages/AppPages/ApplicationPage";
 import ContactsPage from "./pages/AppPages/ContactsPage";
 import ProfilePage from "./pages/AppPages/ProfilePage";
 import NewDealPage from "./pages/AppPages/NewDealPage";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
          {
             path: "requests",
             element: <ApplicationsPage />,
+         },
+         {
+            path: "requests/:id",
+            element: <ApplicationPage />,
          },
          {
             path: "contacts",

@@ -1,0 +1,21 @@
+.button {
+   padding: 8px 14px;
+   border: none;
+   outline: none;
+
+   width: fit-content;
+
+   background: rgba(26, 118, 255, 0.6);
+   color: white;
+   cursor: pointer;
+   border-radius: 50px;
+
+   margin: 0 auto;
+   margin-top: auto;
+
+   transition: all 0.3s ease;
+
+   &:hover {
+      background: rgba(0, 102, 255, 0.45);
+   }
+}

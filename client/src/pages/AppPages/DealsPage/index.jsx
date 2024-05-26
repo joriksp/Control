@@ -12,7 +12,7 @@ const DealsPage = () => {
    const token = localStorage.getItem("token");
 
    useEffect(() => {
-      const fetchUserData = async () => {
+      const fetchData = async () => {
          try {
             const response = await fetch("http://localhost:4444/deals", {
                method: "GET",
@@ -26,8 +26,13 @@ const DealsPage = () => {
                const deals = data.deals;
                let format = [];
                deals.forEach((deal, i) => {
-                  format.push([(i + 1).toString(), deal.name]);
+                  format.push([
+                     (i + 1).toString(),
+                     deal.name,
+                     deal?.executor?.fullname,
+                  ]);
                });
+               console.log(deals);
                setDeals(format);
             } else {
                alert("Ошибка");
@@ -37,14 +42,16 @@ const DealsPage = () => {
          }
       };
 
-      fetchUserData();
+      fetchData();
    }, []);
 
    return (
       <>
          <PageTitle>Сделки</PageTitle>
          <p>Ваши сделки.</p>
-         {deals.length && <Table headers={["№", "Название"]} data={deals} />}
+         {deals && (
+            <Table headers={["№", "Название", "Исполнитель"]} data={deals} />
+         )}
          <Button
             style={{
                margin: "0 auto",

@@ -11,7 +11,8 @@ const PostSchema = new mongoose.Schema(
          required: true,
       },
       executor: {
-         type: String,
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "User",
          required: true,
       },
       file: {

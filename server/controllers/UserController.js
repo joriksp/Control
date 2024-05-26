@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
 
 import UserModel from "../models/User.js";
+import User from "../models/User.js";
 
 export const register = async (req, res) => {
    try {
@@ -130,6 +131,19 @@ export const updateProfile = async (req, res) => {
       res.status(500).json({
          success: false,
          msg: "Не получить данные",
+      });
+   }
+};
+
+export const getAll = async (req, res) => {
+   try {
+      const users = await UserModel.find({ _id: { $ne: req.userId } });
+
+      res.json({ success: true, users });
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         msg: "Не удалось получить сделки",
       });
    }
 };

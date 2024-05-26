@@ -1,11 +1,12 @@
 import PostModel from "../models/Post.js";
+import mongoose from "mongoose";
 
 export const create = async (req, res) => {
    try {
       const doc = new PostModel({
          name: req.body.name,
          task: req.body.task,
-         executor: req.body.executor,
+         executor: new mongoose.Types.ObjectId(req.body.executor),
          file: req.body.file,
          owner: req.userId,
       });
@@ -28,10 +29,9 @@ export const getById = async (req, res) => {
    try {
       const dealId = req.params.id;
 
-      const deal = PostModel.findById(dealId);
-      console.log(deal);
+      const deal = await PostModel.findById(dealId).populate("owner").exec();
 
-      res.json(deal);
+      res.json({ success: true, deal });
    } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -42,7 +42,24 @@ export const getById = async (req, res) => {
 
 export const getAll = async (req, res) => {
    try {
-      const deals = await PostModel.find();
+      const deals = await PostModel.find({ owner: req.userId })
+         .populate("executor")
+         .exec();
+
+      res.json({ success: true, deals });
+   } catch (err) {
+      console.log(err);
+      res.status(500).json({
+         msg: "Не удалось получить сделки",
+      });
+   }
+};
+
+export const getApplications = async (req, res) => {
+   try {
+      const deals = await PostModel.find({ executor: req.userId.toString() })
+         .populate("owner")
+         .exec();
 
       res.json({ success: true, deals });
    } catch (err) {

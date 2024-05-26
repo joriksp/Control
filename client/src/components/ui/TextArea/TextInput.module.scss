@@ -1,0 +1,16 @@
+.field {
+   padding: 6px;
+   border: none;
+   outline: none;
+   border: 1px solid #cfcfcf;
+
+   max-width: 100%;
+   width: 100%;
+   border-radius: 10px;
+
+   transition: border 0.2s ease;
+
+   &:focus {
+      border: 1px solid #747474;
+   }
+}

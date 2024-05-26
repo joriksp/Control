@@ -1,32 +1,56 @@
-import React from "react";
-import styles from "./ApplicationsPage.module.scss";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import PageTitle from "../../../components/ui/PageTitle";
 import Table from "../../../components/ui/Table";
-import Button from "../../../components/ui/Button";
-import { Link } from "react-router-dom";
 
 const ApplicationsPage = () => {
+   const [deals, setDeals] = useState([]);
+   const token = localStorage.getItem("token");
+
+   useEffect(() => {
+      const fetchUserData = async () => {
+         try {
+            const response = await fetch("http://localhost:4444/applications", {
+               method: "GET",
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: token,
+               },
+            });
+            const data = await response.json();
+            if (data.success) {
+               const deals = data.deals;
+               let format = [];
+               deals.forEach((deal, i) => {
+                  format.push([
+                     deal.owner.fullname,
+                     deal.name,
+                     deal.task,
+                     <Link to={`/app/requests/${deal._id}`}>Открыть</Link>,
+                  ]);
+               });
+               console.log(deals);
+               setDeals(format);
+            } else {
+               alert("Ошибка");
+            }
+         } catch (err) {
+            alert(err.message);
+         }
+      };
+
+      fetchUserData();
+   }, []);
+
    return (
       <>
          <PageTitle>Заявки</PageTitle>
          <p>Ваши заявки.</p>
          <Table
-            headers={["ФИО", "Название", ""]}
-            data={[
-               ["Поникаров Илья Евгеньевич", "Заявка", <Link>Просмотр</Link>],
-               ["", "", <Link>Просмотр</Link>],
-            ]}
+            headers={["Заказчик", "Название", "Описание", ""]}
+            data={deals}
          />
-         <Button
-            style={{
-               margin: "0 auto",
-               marginTop: "auto",
-               width: "fit-content",
-            }}
-         >
-            Новая сделка
-         </Button>
       </>
    );
 };
